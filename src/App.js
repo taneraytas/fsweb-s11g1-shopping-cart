@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { data } from "./data";
 // Bileşenler
@@ -11,6 +11,17 @@ import { ProductContext } from "./context/ProductContext";
 function App() {
   const [products, setProducts] = useState(data);
   const [cart, setCart] = useState([]);
+  const cartStatus = localStorage.getItem("cartList");
+  useEffect(() => {
+    if (cartStatus) {
+      return setCart(JSON.parse(cartStatus));
+    } else {
+      return cart;
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("cartList", JSON.stringify(cart));
+  }, [cart]);
 
   const addItem = (item) => {
     // verilen itemi sepete ekleyin
